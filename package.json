@@ -1,0 +1,13 @@
+{
+  "name": "movuino.js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:topela/movuino.js.git",
+  "author": "Sonny Piers <sonny@fastmail.net>",
+  "license": "GPL",
+  "dependencies": {
+    "osc": "^2.2.0",
+    "serialport": "^5.0.0-beta7",
+    "usb": "^1.2.0"
+  }
+}
