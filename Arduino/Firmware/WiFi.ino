@@ -5,35 +5,35 @@
 void startWifi(){
   WiFi.begin(ssid, pass);
 
-  Serial.println();
-  Serial.println();
-  Serial.print("Wait for WiFi... ");
+//  Serial.println();
+//  Serial.println();
+//  Serial.print("Wait for WiFi... ");
 
   // wait while connecting to wifi ...
   long timWifi0 = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - timWifi0 < 20000) {
-    Serial.print(".");
+//    Serial.print(".");
     delay(500);
   }
 
   if (WiFi.status() == WL_CONNECTED) {
     // Movuino is now connected to Wifi
-    Serial.println("");
-    Serial.println("WiFi connected");
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP());
+//    Serial.println("");
+//    Serial.println("WiFi connected");
+//    Serial.println("IP address: ");
+//    Serial.println(WiFi.localIP());
 
     // Start client port (to send message)
-    Serial.println("Starting client port");
+//    Serial.println("Starting client port");
     Udp.begin(portOut);
     delay(50);
     IPAddress myIp = WiFi.localIP();
 
     // Start server port (to receive message)
-    Serial.println("Starting server port");
+//    Serial.println("Starting server port");
     Udp.begin(portIn);
-    Serial.print("Server port: ");
-    Serial.println(Udp.localPort());
+//    Serial.print("Server port: ");
+//    Serial.println(Udp.localPort());
   }
   else{
     Serial.print("Unable to connect on ");
@@ -74,7 +74,7 @@ void awakeWifi() {
     long timWifi0 = millis();
     while (WiFi.status() != WL_CONNECTED && millis() - timWifi0 < 20000) {
     //while (WiFiMulti.run() != WL_CONNECTED && millis() - timWifi0 < 10000) {
-      Serial.print(":");
+//      Serial.print(":");
       digitalWrite(pinLedWifi, LOW);
       delay(200);
       digitalWrite(pinLedWifi, HIGH);
@@ -85,22 +85,22 @@ void awakeWifi() {
 
     if (WiFi.status() == WL_CONNECTED) {
       // Movuino is now connected to Wifi
-      Serial.println("");
-      Serial.println("WiFi connected");
-      Serial.println("IP address: ");
-      Serial.println(WiFi.localIP());
+//      Serial.println("");
+//      Serial.println("WiFi connected");
+//      Serial.println("IP address: ");
+//      Serial.println(WiFi.localIP());
 
       // Start client port (to send message)
-      Serial.println("Starting client port");
+//      Serial.println("Starting client port");
       Udp.begin(portOut);
       delay(50);
       IPAddress myIp = WiFi.localIP();
 
       // Start server port (to receive message)
-      Serial.println("Starting server port");
+//      Serial.println("Starting server port");
       Udp.begin(portIn);
-      Serial.print("Server port: ");
-      Serial.println(Udp.localPort());
+//      Serial.print("Server port: ");
+//      Serial.println(Udp.localPort());
     }
     else{
       Serial.print("Unable to connect on ");

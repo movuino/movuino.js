@@ -1,18 +1,19 @@
 'use strict'
 
-const movuino = require('../index')
+const m = require('../index')
 
-movuino.getMovuinos().then((movuinos) => {
-  const movuino = movuinos[0]
-  movuino.OSCSerialPort.serialPort.on('data', (data) => {
-    console.log(data.toString())
+m.once('movuino', movuino => {
+  movuino.once('plugged', () => {
+    movuino.attachSerial()
+    .then(() => {
+      return movuino.setWifi({
+        ssid: 'ssid',
+        password: 'password',
+        host: '192.168.1.25',
+      })
+    })
+    .catch((err) => {
+      console.error(err)
+    })
   })
-  return movuino.setWifi({
-    ssid: 'localiot',
-    password: 'salutsava',
-    host: '192.168.0.100',
-  })
-})
-.catch((err) => {
-  console.error(err)
 })
