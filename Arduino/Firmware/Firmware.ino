@@ -100,30 +100,8 @@ void setup() {
 
   getWifiConfig();
 
-  Serial.println("reading file system");
-  Dir dir = SPIFFS.openDir("/");
-  while (dir.next()) {
-    Serial.print(dir.fileName());
-    Serial.print(": ");
-    File f = dir.openFile("r");
-    Serial.println(f.size());
-    f.close();
-  }
-//  SPIFFS.end();
-  Serial.println("done");
-
-
-  // initialize device
-//  Serial.println("Initializing I2C devices...");
   accelgyro.initialize();
 
-  Serial.println("Movuino ID:");
-  Serial.println(CID);
-  Serial.println("");
-
-//  getWifiConfig();
-
-  // We start by connecting to a WiFi network
   startWifi();
 }
 
