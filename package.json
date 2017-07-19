@@ -8,6 +8,7 @@
   "dependencies": {
     "osc": "^2.2.0",
     "serialport": "^5.0.0-beta7",
-    "usb": "^1.2.0"
+    "usb": "^1.2.0",
+    "util.promisify": "^1.0.0"
   }
 }
