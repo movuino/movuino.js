@@ -1,0 +1,15 @@
+plugins:
+  - node
+  - unicorn
+
+extends:
+  - eslint:recommended
+  - plugin:unicorn/recommended
+  - plugin:node/recommended
+  - xo/esnext
+
+rules:
+  indent: [error, 2]
+  quotes: [error, double]
+  # unicorn https://github.com/sindresorhus/eslint-plugin-unicorn
+  unicorn/filename-case: 0

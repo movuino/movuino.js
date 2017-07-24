@@ -1,11 +1,12 @@
 void writeWifiConfig() {
   File file = SPIFFS.open("/wifi.txt", "w+");
+  if (file) {
+    file.println(ssid);
+    file.println(pass);
+    file.println(hostIP);
 
-  file.println(ssid);
-  file.println(pass);
-  file.println(hostIP);
-
-  file.close();
+    file.close();
+  }
 }
 
 void getWifiConfig() {

@@ -1,9 +1,9 @@
-'use strict'
+"use strict";
 
-const m = require('../index')
+const m = require("..");
 
-m.once('movuino', movuino => {
-  movuino.on('data', (data) => {
-    console.log(data)
-  })
-})
+m.once("movuino", movuino => {
+  movuino.on("data", data => {
+    console.log(data);
+  });
+});

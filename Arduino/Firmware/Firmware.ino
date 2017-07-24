@@ -98,6 +98,8 @@ void setup() {
     return;
   }
 
+//  SPIFFS.remove("/wifi.txt"); // reset wifi config
+
   getWifiConfig();
 
   accelgyro.initialize();
@@ -133,6 +135,7 @@ void loop() {
     // SEND MOVUINO DATA
     OSCMessage msg("/movuinOSC"); // create an OSC message on address "/movuinOSC"
     msg.add(CID);
+//    msg.add(name);
     msg.add(splitFloatDecimal(-ax / 32768.0));   // add acceleration X data as message
     msg.add(splitFloatDecimal(-ay / 32768.0));   // add acceleration Y data
     msg.add(splitFloatDecimal(-az / 32768.0));   // add ...

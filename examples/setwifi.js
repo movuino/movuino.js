@@ -1,19 +1,22 @@
-'use strict'
+"use strict";
 
-const m = require('../index')
+const m = require("..");
+const wifiPassword = require("wifi-password");
 
-m.once('movuino', movuino => {
-  movuino.once('plugged', () => {
-    movuino.attachSerial()
-    .then(() => {
-      return movuino.setWifi({
-        ssid: 'ssid',
-        password: 'password',
-        host: '192.168.1.25',
-      })
-    })
-    .catch((err) => {
-      console.error(err)
-    })
-  })
-})
+async function getConfig() {
+  const wifi = await m.detectWifi();
+  wifi.password = await wifiPassword(wifi.ssid);
+  return wifi;
+}
+
+m.on("movuino", movuino => {
+  movuino.once("plugged", async () => {
+    try {
+      await m.attachSerial;
+      const wifi = await getConfig();
+      await movuino.setWifi(wifi);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+});
