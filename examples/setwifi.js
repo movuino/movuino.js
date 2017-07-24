@@ -12,7 +12,7 @@ async function getConfig() {
 m.on("movuino", movuino => {
   movuino.once("plugged", async () => {
     try {
-      await m.attachSerial;
+      await movuino.attachSerial();
       const wifi = await getConfig();
       await movuino.setWifi(wifi);
     } catch (err) {
