@@ -20,6 +20,9 @@ module.exports.detectWifi = () => {
       if (err) {
         return reject(err);
       }
+      if (!conns[0]) {
+        return resolve({})
+      }
       const {iface, ssid} = conns[0];
       const host = getInterfaceAddress(iface);
       resolve({ssid, host});
