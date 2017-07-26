@@ -131,7 +131,7 @@ void loop() {
 //    }
 
 
-    delay(2);
+//    delay(2);
     // SEND MOVUINO DATA
     OSCMessage msg("/movuinOSC"); // create an OSC message on address "/movuinOSC"
     msg.add(CID);

@@ -19,6 +19,16 @@ void setWifi(OSCMessage &msgIn) {
 
   writeWifiConfig();
 
+  OSCMessage msg("/set/wifi");
+  //start a new SLIP Packet
+  SLIPSerial.beginPacket();
+  //send the data
+  msg.send(SLIPSerial);
+  //end the packet
+  SLIPSerial.endPacket();
+  // free space occupied by message
+  msg.empty();
+
   shutDownWifi();
   awakeWifi();
 }
