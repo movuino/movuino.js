@@ -34,18 +34,15 @@ void writeRange() {
   }
 }
 
-void getRange() {
+void configRange() {
   File file = SPIFFS.open("/range.txt", "r");
   if (file) {
-    String _accelRange = file.readStringUntil('\n');
-    String _gyroRange = file.readStringUntil('\n');
-
-    _accelRange.toCharArray(accelRange, _accelRange.length());
-    _gyroRange.toCharArray(gyroRange, _gyroRange.length());
-
-    accelgyro.setFullScaleGyroRange(_accelRange.toInt());
-    accelgyro.setFullScaleAccelRange(_gyroRange.toInt());
+    accelRange = file.readStringUntil('\n').toInt();
+    gyroRange = file.readStringUntil('\n').toInt();
 
     file.close();
   }
+
+  accelgyro.setFullScaleAccelRange(accelRange);
+  accelgyro.setFullScaleGyroRange(gyroRange);
 }

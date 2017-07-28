@@ -45,9 +45,9 @@ int16_t gx, gy, gz; // store gyroscope values
 int16_t mx, my, mz; // store magneto values
 int magRange[] = {666, -666, 666, -666, 666, -666}; // magneto range values for callibration
 
-// Sensor Ranges 
-char * accelRange = (char*) malloc(3);
-char * gyroRange = (char*) malloc(3);
+// Sensor Ranges
+int accelRange = 3;
+int gyroRange = 3;
 
 // Button variables
 const int pinBtn = 13;     // the number of the pushbutton pin
@@ -108,12 +108,14 @@ void setup() {
 
   accelgyro.initialize();
 
-  getRange();
+  configRange();
 
-  //startWifi();
+  startWifi();
+
 }
 
 void loop() {
+  
   receiveSerialOSC();
 //  getSerialMsg(); // update msgAdr & msgMsg
 
