@@ -24,3 +24,28 @@ void getWifiConfig() {
   }
 }
 
+void writeRange() {
+  File file = SPIFFS.open("/range.txt", "w+");
+  if (file) {
+    file.println(accelRange);
+    file.println(gyroRange);
+
+    file.close();
+  }
+}
+
+void getRange() {
+  File file = SPIFFS.open("/range.txt", "r");
+  if (file) {
+    String _accelRange = file.readStringUntil('\n');
+    String _gyroRange = file.readStringUntil('\n');
+
+    _accelRange.toCharArray(accelRange, _accelRange.length());
+    _gyroRange.toCharArray(gyroRange, _gyroRange.length());
+
+    accelgyro.setFullScaleGyroRange(_accelRange.toInt());
+    accelgyro.setFullScaleAccelRange(_gyroRange.toInt());
+
+    file.close();
+  }
+}
