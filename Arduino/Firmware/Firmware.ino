@@ -1,4 +1,4 @@
-#include <EEPROM.h>
+//#include <EEPROM.h>
 #include <SLIPEncodedSerial.h>
 #include <SLIPEncodedUSBSerial.h>
 #include <OSCTiming.h>
@@ -44,6 +44,10 @@ int16_t ax, ay, az; // store accelerometre values
 int16_t gx, gy, gz; // store gyroscope values
 int16_t mx, my, mz; // store magneto values
 int magRange[] = {666, -666, 666, -666, 666, -666}; // magneto range values for callibration
+
+// Sensor Ranges
+int accelRange = 3;
+int gyroRange = 3;
 
 // Button variables
 const int pinBtn = 13;     // the number of the pushbutton pin
@@ -104,10 +108,14 @@ void setup() {
 
   accelgyro.initialize();
 
+  configRange();
+
   startWifi();
+
 }
 
 void loop() {
+  
   receiveSerialOSC();
 //  getSerialMsg(); // update msgAdr & msgMsg
 

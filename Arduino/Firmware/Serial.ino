@@ -14,6 +14,8 @@ void receiveSerialOSC() {
       messageIN.dispatch("/get/id", getId);
       messageIN.dispatch("/set/wifi", setWifi);
       messageIN.dispatch("/get/wifi", getWifi);
+      messageIN.dispatch("/set/range", setRange);
+      messageIN.dispatch("/get/range", getRange);
     }
   }
 }

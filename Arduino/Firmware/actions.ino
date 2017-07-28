@@ -48,3 +48,40 @@ void getWifi(OSCMessage &msgIn) {
   // free space occupied by message
   msg.empty();
 }
+
+void getRange(OSCMessage &msgIn) {
+  int _accelRange = accelgyro.getFullScaleAccelRange();
+  int _gyroRange = accelgyro.getFullScaleGyroRange();
+
+  OSCMessage msg("/get/range");
+  msg.add(_accelRange);
+  msg.add(_gyroRange);
+
+  //start a new SLIP Packet
+  SLIPSerial.beginPacket();
+  //send the data
+  msg.send(SLIPSerial);
+  //end the packet
+  SLIPSerial.endPacket();
+  // free space occupied by message
+  msg.empty();
+}
+
+void setRange(OSCMessage &msgIn) {
+  accelRange = msgIn.getInt(0);
+  gyroRange = msgIn.getInt(1);
+
+  writeRange();
+  configRange();
+
+  OSCMessage msg("/set/range");
+  //start a new SLIP Packet
+  SLIPSerial.beginPacket();
+  //send the data
+  msg.send(SLIPSerial);
+  //end the packet
+  SLIPSerial.endPacket();
+  // free space occupied by message
+  msg.empty();
+}
+
