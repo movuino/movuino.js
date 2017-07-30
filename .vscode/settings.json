@@ -1,0 +1,4 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "arduino.additionalUrls": "http://arduino.esp8266.com/stable/package_esp8266com_index.json"
+}

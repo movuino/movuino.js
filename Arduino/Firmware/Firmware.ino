@@ -1,4 +1,3 @@
-//#include <EEPROM.h>
 #include <SLIPEncodedSerial.h>
 #include <SLIPEncodedUSBSerial.h>
 #include <OSCTiming.h>
@@ -52,7 +51,7 @@ int gyroRange = 3;
 // Button variables
 const int pinBtn = 13;     // the number of the pushbutton pin
 boolean isBtn = 0;         // variable for reading the pushbutton status
-float pressTime = 500;    // pressure time needed to switch Movuino state
+float pressTime = 5000;    // pressure time needed to switch Movuino state
 float lastButtonTime;
 boolean lockPress = false; // avoid several activation on same button pressure
 
@@ -143,7 +142,6 @@ void loop() {
     // SEND MOVUINO DATA
     OSCMessage msg("/movuinOSC"); // create an OSC message on address "/movuinOSC"
     msg.add(CID);
-//    msg.add(name);
     msg.add(splitFloatDecimal(-ax / 32768.0));   // add acceleration X data as message
     msg.add(splitFloatDecimal(-ay / 32768.0));   // add acceleration Y data
     msg.add(splitFloatDecimal(-az / 32768.0));   // add ...
@@ -153,6 +151,7 @@ void loop() {
     msg.add(splitFloatDecimal(my / 100.0));
     msg.add(splitFloatDecimal(mx / 100.0));
     msg.add(splitFloatDecimal(-mz / 100.0));
+    msg.add(!isBtn);
     Udp.beginPacket(hostIP, portOut); // send message to computer target with "hostIP" on "port"
     msg.send(Udp);
     Udp.endPacket();
