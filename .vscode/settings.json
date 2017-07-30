@@ -1,4 +1,11 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "arduino.additionalUrls": "http://arduino.esp8266.com/stable/package_esp8266com_index.json"
+    "arduino.additionalUrls": "http://arduino.esp8266.com/stable/package_esp8266com_index.json",
+    "files.associations": {
+        "array": "cpp",
+        "initializer_list": "cpp",
+        "string_view": "cpp",
+        "utility": "cpp",
+        "system_error": "cpp"
+    }
 }
