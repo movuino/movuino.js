@@ -1,8 +1,28 @@
+void receiveWifiOSC() {
+  OSCMessage message;
+  int size = Udp.parsePacket();
+
+  if (size > 0) {
+    while (size--) {
+      message.fill(Udp.read());
+    }
+    if (!message.hasError()) {
+      message.dispatch("/vibroPulse", callbackVibroPulse);
+      message.dispatch("/vibroNow", callbackVibroNow);
+    } else {
+      error = message.getError();
+      Serial.print("error: ");
+      Serial.println(error);
+    }
+  }
+}
+
 //-----------------------------------------------
 //---------------- START WIFI -------------------
 //-----------------------------------------------
 
 void startWifi(){
+  WiFi.hostname(hostname);
   WiFi.begin(ssid, pass);
 
 //  Serial.println();
@@ -35,10 +55,11 @@ void startWifi(){
 //    Serial.print("Server port: ");
 //    Serial.println(Udp.localPort());
   }
-  else{
-    Serial.print("Unable to connect on ");
-    Serial.print(ssid);
-    Serial.println(" network.");
+  else {
+    DEBUG(String("Unable to connect to " + String(ssid) + " network."));
+    // Serial.print("Unable to connect on ");
+    // Serial.print(ssid);
+    // Serial.println(" network.");
   }
 }
 
@@ -67,6 +88,7 @@ void awakeWifi() {
     // Awake wifi and re-connect Movuino
     WiFi.forceSleepWake();
     WiFi.mode(WIFI_STA);
+    WiFi.hostname(hostname);
     WiFi.begin(ssid, pass);
     digitalWrite(pinLedBat, LOW); // turn ON battery led
 
@@ -103,9 +125,11 @@ void awakeWifi() {
 //      Serial.println(Udp.localPort());
     }
     else{
-      Serial.print("Unable to connect on ");
-      Serial.print(ssid);
-      Serial.println(" network.");
+      String msg = String("Unable to connect to " + String(ssid) + " network.");
+      DEBUG(msg);
+      // Serial.print("Unable to connect on ");
+      // Serial.print(ssid);
+      // Serial.println(" network.");
     }
   }
 }

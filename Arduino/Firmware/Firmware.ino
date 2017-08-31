@@ -26,6 +26,7 @@ SLIPEncodedSerial SLIPSerial(Serial);
 #include <FS.h>
 
 const int CID = ESP.getChipId();
+const String hostname = String("movuino-") + CID;
 
 // Set your wifi network configuration here
 char * ssid = (char*) malloc(40);                // your network SSID (name of the wifi network)
@@ -114,9 +115,8 @@ void setup() {
 }
 
 void loop() {
-  
+  // Handle serial OSC data
   receiveSerialOSC();
-//  getSerialMsg(); // update msgAdr & msgMsg
 
   // BUTTON CHECK
   checkButton();
@@ -133,54 +133,36 @@ void loop() {
     //delay(5);
     magnetometerAutoCallibration();
 
-//    if (millis() < 30000) {
-//      printMovuinoData(); // optional
-//    }
-
-
-//    delay(2);
     // SEND MOVUINO DATA
-    OSCMessage msg("/movuinOSC"); // create an OSC message on address "/movuinOSC"
+    OSCMessage msg("/movuino"); // create an OSC message on address "/movuinOSC"
     msg.add(CID);
-    msg.add(splitFloatDecimal(-ax / 32768.0));   // add acceleration X data as message
-    msg.add(splitFloatDecimal(-ay / 32768.0));   // add acceleration Y data
-    msg.add(splitFloatDecimal(-az / 32768.0));   // add ...
-    msg.add(splitFloatDecimal(gx / 32768.0));
-    msg.add(splitFloatDecimal(gy / 32768.0));
-    msg.add(splitFloatDecimal(gz / 32768.0));    // you can add as many data as you want
-    msg.add(splitFloatDecimal(my / 100.0));
-    msg.add(splitFloatDecimal(mx / 100.0));
-    msg.add(splitFloatDecimal(-mz / 100.0));
     msg.add(!isBtn);
+    msg.add(isVibro);
+
+    // For obvious reasons, let's not send motion values while vibrating
+    if (!digitalRead(pinVibro)) {
+      msg.add(splitFloatDecimal(-ax / 32768.0));   // add acceleration X data as message
+      msg.add(splitFloatDecimal(-ay / 32768.0));   // add acceleration Y data
+      msg.add(splitFloatDecimal(-az / 32768.0));   // add ...
+      msg.add(splitFloatDecimal(gx / 32768.0));
+      msg.add(splitFloatDecimal(gy / 32768.0));
+      msg.add(splitFloatDecimal(gz / 32768.0));    // you can add as many data as you want
+      msg.add(splitFloatDecimal(my / 100.0));
+      msg.add(splitFloatDecimal(mx / 100.0));
+      msg.add(splitFloatDecimal(-mz / 100.0));
+    }
+
     Udp.beginPacket(hostIP, portOut); // send message to computer target with "hostIP" on "port"
     msg.send(Udp);
     Udp.endPacket();
     msg.empty();
+
+    // Handle wifi/UDP OSC data
+    receiveWifiOSC();
   }
   else {
     delay(50); // wait more if Movuino is sleeping
   }
-}
-
-void printMovuinoData() {
-  Serial.print(ax / float(32768));
-  Serial.print("\t ");
-  Serial.print(ay / float(32768));
-  Serial.print("\t ");
-  Serial.print(az / float(32768));
-  Serial.print("\t ");
-  Serial.print(gx / float(32768));
-  Serial.print("\t ");
-  Serial.print(gy / float(32768));
-  Serial.print("\t ");
-  Serial.print(gz / float(32768));
-  Serial.print("\t ");
-  Serial.print(mx);
-  Serial.print("\t ");
-  Serial.print(my);
-  Serial.print("\t ");
-  Serial.print(mz);
-  Serial.println();
 }
 
 float splitFloatDecimal(float f_){
