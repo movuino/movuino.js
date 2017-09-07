@@ -21,7 +21,7 @@ m.on("movuino", movuino => {
     console.log(movuino.id, "plugged");
   });
 
-  movuino.on("online", (info) => {
+  movuino.on("online", info => {
     console.log(info);
     console.log(movuino.id, "online");
   });
