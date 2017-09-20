@@ -1,15 +1,15 @@
 plugins:
   - node
   - unicorn
+  - prettier
 
 extends:
   - eslint:recommended
   - plugin:unicorn/recommended
   - plugin:node/recommended
   - xo/esnext
+  - prettier
 
 rules:
-  indent: [error, 2]
-  quotes: [error, double]
   # unicorn https://github.com/sindresorhus/eslint-plugin-unicorn
   unicorn/filename-case: 0

@@ -12,15 +12,19 @@
   "dependencies": {
     "node-wifi": "^1.2.5",
     "osc": "^2.2.0",
-    "serialport": "^5.0.0-beta7",
+    "serialport": "^5.0.0",
     "usb": "^1.2.0",
     "util.promisify": "^1.0.0",
     "wifi-password": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^4.3.0",
+    "eslint": "^4.5.0",
+    "eslint-config-prettier": "^2.4.0",
     "eslint-config-xo": "^0.18.2",
     "eslint-plugin-node": "^5.1.1",
-    "eslint-plugin-unicorn": "^2.1.2"
+    "eslint-plugin-prettier": "^2.2.0",
+    "eslint-plugin-unicorn": "^2.1.2",
+    "prettier": "^1.6.1",
+    "robotjs": "^0.4.7"
   }
 }

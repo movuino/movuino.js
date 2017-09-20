@@ -21,7 +21,6 @@ m.on("movuino", movuino => {
     }, 1000);
   });
 
- 
   movuino.on("vibrator-on", () => {
     console.log(movuino.id, "vibrator on");
   });
