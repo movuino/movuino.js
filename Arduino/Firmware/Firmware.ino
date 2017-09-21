@@ -139,6 +139,8 @@ void loop()
     msg.add(CID);
     msg.add(!isBtn);
     msg.add(isVibro);
+    msg.add(accelRange);
+    msg.add(gyroRange);
 
     // For obvious reasons, let's not send motion values while vibrating
     if (!digitalRead(pinVibro))
