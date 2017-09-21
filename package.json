@@ -24,6 +24,8 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-prettier": "^2.2.0",
     "eslint-plugin-unicorn": "^2.1.2",
+    "midi": "^0.9.5",
+    "note-parser": "^2.0.1",
     "prettier": "^1.6.1",
     "robotjs": "^0.4.7"
   }
