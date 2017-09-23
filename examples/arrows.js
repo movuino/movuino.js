@@ -1,34 +1,43 @@
+/*
+What if everytime the movuino accelerates in one direction, an arrow key is pushed?
+In this example, X+ is left key, X- is right key, Z+ (up) is up key and Z- (down) is the spacebar key.
+The movuino button is also assigned to the spacebar.
+There's a 500 ms delay between each keytap.
+*/
+
 "use strict";
 
-const m = require("..");
+const movuinojs = require("..");
 const robotjs = require("robotjs"); // eslint-disable-line node/no-unpublished-require
 
-const sensibility = 0.15;
+const sensitivity = 0.15; // threshold : you need to accelerate more than that
 const gravity = 0.06;
 
-m.once("movuino", movuino => {
+movuinojs.once("movuino", movuino => {
+
+  // The movuino button is assigned to the spacebar key
   movuino.on("button-down", () => {
     console.log("button");
     robotjs.keyTap("space");
   });
 
-  function test([x, , z]) {
-    if (x > sensibility) {
-      console.log("left");
-      robotjs.keyTap("left");
-      unlisten();
-      setTimeout(listen, 500);
-    } else if (x < -sensibility) {
+  function accelToArrowKeys([x, , z]) {
+    if (x > sensitivity) {      // if the X axis sensor data is more than our sensitivity
+      console.log("left");      // print "left" in the console
+      robotjs.keyTap("left");   // left arrow keytap
+      unlisten();               // stop listening to datas
+      setTimeout(listen, 500);  // resume listening in 500 ms
+    } else if (x < -sensitivity) {
       console.log("right");
       robotjs.keyTap("right");
       unlisten();
       setTimeout(listen, 500);
-    } else if (z > sensibility - gravity) {
+    } else if (z > sensitivity - gravity) { // On the Z axis we have gravity, so we need to compensate.
       console.log("down");
       robotjs.keyTap("space");
       unlisten();
       setTimeout(listen, 500);
-    } else if (z < -sensibility + -gravity) {
+    } else if (z < -sensitivity + -gravity) {
       console.log("up");
       robotjs.keyTap("up");
       unlisten();
@@ -37,11 +46,11 @@ m.once("movuino", movuino => {
   }
 
   function listen() {
-    movuino.on("data", test);
+    movuino.on("data", accelToArrowKeys);
   }
 
   function unlisten() {
-    movuino.removeListener("data", test);
+    movuino.removeListener("data", accelToArrowKeys);
   }
 
   listen();

@@ -1,24 +1,29 @@
+/*
+Now we're talking ! This example show you how to play with the vibrator of the movuino over wifi.
+*/
+
 "use strict";
 
-const m = require("..");
+const movuinojs = require("..");
 
-m.on("error", error => {
+// Error handling
+movuinojs.on("error", error => {
   console.error(error);
 });
 
-m.on("movuino", movuino => {
-  console.log(movuino.id, "movuino");
+movuinojs.on("movuino", movuino => {            // When we detect a movuino
+  console.log(movuino.id, "movuino");           // we print its ID
 
-  movuino.on("error", error => {
+  movuino.on("error", error => {                // error handling
     console.error(movuino.id, "error", error);
   });
 
-  movuino.on("online", () => {
-    console.log(movuino.id, "online");
-    movuino.startVibro();
+  movuino.on("online", () => {                  // When the movuino is online (connected via WIFI)
+    console.log(movuino.id, "online");          // we print the good news in the console
+    movuino.startVibro();                       // Let's vibrate baby !
     setTimeout(() => {
-      movuino.stopVibro();
-    }, 1000);
+      movuino.stopVibro();                      // Stop the vibration
+    }, 1000);                                   // after 1 second
   });
 
   movuino.on("vibrator-on", () => {
