@@ -1,24 +1,30 @@
+/*
+In this simple example, every event is printed in the console.
+*/
+
 "use strict";
 
-const m = require("..");
+const movuinojs = require("..");
 
-m.on("error", error => {
+// error handling
+movuinojs.on("error", error => {
   console.error(error);
 });
 
-m.on("movuino", movuino => {
+// When movuino.js detects a movuino
+movuinojs.on("movuino", movuino => {
   console.log(movuino.id, "movuino");
 
-  movuino.on("error", error => {
-    console.error(movuino.id, "error", error);
+  movuino.on("error", error => {                // Event
+    console.error(movuino.id, "error", error);  // Log
+  });
+
+  movuino.on("plugged", () => {                 //Event
+    console.log(movuino.id, "plugged");         // log etc...
   });
 
   movuino.on("unplugged", () => {
     console.log(movuino.id, "unplugged");
-  });
-
-  movuino.on("plugged", () => {
-    console.log(movuino.id, "plugged");
   });
 
   movuino.on("online", info => {

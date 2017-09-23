@@ -1,6 +1,10 @@
+/*
+In this example, acceleration on a specifi axis will trigger a midi note. Cool !
+*/
+
 "use strict";
 
-const m = require("..");
+const movuinojs = require("..");
 // https://github.com/justinlatimer/node-midi
 const midi = require("midi"); // eslint-disable-line node/no-unpublished-require
 // https://github.com/danigb/note-parser
@@ -13,7 +17,7 @@ const velocity = 127; // Midi velocity 0 - 127
 const accelerometerSensitivity = 0.05; // Motion sensitivity 0 - 1
 const gyroscopeSensitivity = 0.1; // Motion sensitivity 0 - 1
 const gravity = 0.06; // Gravity effect on sensitivity
-const delay = 150;
+const delay = 150; // how much time should we stop listening between each notes
 
 function startNote(note) {
   output.sendMessage([144, parseNote(note), velocity]);
@@ -34,14 +38,14 @@ function playNote(note, ms = 200) {
   }, ms);
 }
 
-m.on("movuino", movuino => {
-  function ondata([x, y, z, gx, gy, gz]) {
+movuinojs.on("movuino", movuino => {        // when a movuino is connected
+  function ondata([x, y, z, gx, gy, gz]) {  // and we receive its sensors datas
     // Accelerometer
-    if (x > accelerometerSensitivity) {
-      console.log("x+ (left)");
-      playNote("A2");
-      unlisten();
-      setTimeout(listen, delay);
+    if (x > accelerometerSensitivity) {     // if acceleration on X is more than the accelerometer sensitivity
+      console.log("x+ (left)");             // print this stuff in the console
+      playNote("A2");                       // play a note
+      unlisten();                           // stop listening to data
+      setTimeout(listen, delay);            // resume listening after X ms (delay)
     } else if (x < -accelerometerSensitivity) {
       console.log("x- (right)");
       playNote("B2");
