@@ -1,22 +1,11 @@
-void DEBUG(String message) {
-  const char * _message = message.c_str();
-  OSCMessage msg("/movuino/message");
-  msg.add(_message);
-
-  //start a new SLIP Packet
-  SLIPSerial.beginPacket();
-  //send the data
-  msg.send(SLIPSerial);
-  //end the packet
-  SLIPSerial.endPacket();
-  // free space occupied by message
-  msg.empty();
-}
+/*
+ Serial communication protocol.
+ It's based on SLIP encoded OSC messages.
+*/
 
 void receiveSerialOSC() {
   OSCMessage messageIN;
   int size;
-  //receive a bundle
   if (SLIPSerial.available()) {
     while (!SLIPSerial.endofPacket())
       if ( (size = SLIPSerial.available()) > 0)
@@ -33,4 +22,14 @@ void receiveSerialOSC() {
       messageIN.dispatch("/get/range", getRange);
     }
   }
+}
+
+void DEBUG(String message) {
+  const char * _message = message.c_str();
+  OSCMessage msg("/movuino/message");
+  msg.add(_message);
+  SLIPSerial.beginPacket();
+  msg.send(SLIPSerial);
+  SLIPSerial.endPacket();
+  msg.empty();
 }
