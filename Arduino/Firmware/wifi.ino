@@ -1,3 +1,8 @@
+/*
+All WIFI related functions
+*/
+
+// Wifi OSC communication protocol
 void receiveWifiOSC() {
   OSCMessage message;
   int size = Udp.parsePacket();
@@ -17,56 +22,27 @@ void receiveWifiOSC() {
   }
 }
 
-//-----------------------------------------------
-//---------------- START WIFI -------------------
-//-----------------------------------------------
-
 void startWifi(){
   WiFi.hostname(hostname);
   WiFi.begin(ssid, pass);
 
-//  Serial.println();
-//  Serial.println();
-//  Serial.print("Wait for WiFi... ");
-
-  // wait while connecting to wifi ...
+  // wait while connecting to wifi
   long timWifi0 = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - timWifi0 < 20000) {
-//    Serial.print(".");
     delay(500);
   }
 
+  // when connected
   if (WiFi.status() == WL_CONNECTED) {
-    // Movuino is now connected to Wifi
-//    Serial.println("");
-//    Serial.println("WiFi connected");
-//    Serial.println("IP address: ");
-//    Serial.println(WiFi.localIP());
-
-    // Start client port (to send message)
-//    Serial.println("Starting client port");
-    Udp.begin(portOut);
+    Udp.begin(portOut); // Start server port (to send message)
     delay(50);
     IPAddress myIp = WiFi.localIP();
-
-    // Start server port (to receive message)
-//    Serial.println("Starting server port");
-    Udp.begin(portIn);
-//    Serial.print("Server port: ");
-//    Serial.println(Udp.localPort());
+    Udp.begin(portIn);   // Start server port (to receive message)
   }
   else {
     DEBUG(String("Unable to connect to " + String(ssid) + " network."));
-    // Serial.print("Unable to connect on ");
-    // Serial.print(ssid);
-    // Serial.println(" network.");
   }
 }
-
-
-//-----------------------------------------------
-//---------------- STOP WIFI --------------------
-//-----------------------------------------------
 
 void shutDownWifi() {
   if (WiFi.status() == WL_CONNECTED) {
@@ -78,11 +54,7 @@ void shutDownWifi() {
   }
 }
 
-
-//-----------------------------------------------
-//---------------- AWAKE WIFI -------------------
-//-----------------------------------------------
-
+// If shutDownWifi() has been used, use awakeWifi() to start the WIFI again, not startWifi()
 void awakeWifi() {
   if(!(WiFi.status() == WL_CONNECTED)){
     // Awake wifi and re-connect Movuino
@@ -95,41 +67,24 @@ void awakeWifi() {
     //Blink wifi led while wifi is connecting
     long timWifi0 = millis();
     while (WiFi.status() != WL_CONNECTED && millis() - timWifi0 < 20000) {
-    //while (WiFiMulti.run() != WL_CONNECTED && millis() - timWifi0 < 10000) {
-//      Serial.print(":");
       digitalWrite(pinLedWifi, LOW);
       delay(200);
       digitalWrite(pinLedWifi, HIGH);
       delay(200);
     }
+
+    // when connected
     digitalWrite(pinLedWifi, LOW); // turn ON wifi led
 
-
     if (WiFi.status() == WL_CONNECTED) {
-      // Movuino is now connected to Wifi
-//      Serial.println("");
-//      Serial.println("WiFi connected");
-//      Serial.println("IP address: ");
-//      Serial.println(WiFi.localIP());
-
-      // Start client port (to send message)
-//      Serial.println("Starting client port");
-      Udp.begin(portOut);
+      Udp.begin(portOut); // Start server port (to send message)
       delay(50);
       IPAddress myIp = WiFi.localIP();
-
-      // Start server port (to receive message)
-//      Serial.println("Starting server port");
-      Udp.begin(portIn);
-//      Serial.print("Server port: ");
-//      Serial.println(Udp.localPort());
+      Udp.begin(portIn);  // Start server port (to receive message)
     }
     else{
       String msg = String("Unable to connect to " + String(ssid) + " network.");
       DEBUG(msg);
-      // Serial.print("Unable to connect on ");
-      // Serial.print(ssid);
-      // Serial.println(" network.");
     }
   }
 }
