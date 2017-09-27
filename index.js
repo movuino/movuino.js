@@ -1,11 +1,11 @@
 "use strict";
 
-const wifi = require("node-wifi");
+const nodewifi = require("node-wifi");
 const os = require("os");
 
 const movuino = require("./lib/movuinos");
-require("./lib/usb");
-require("./lib/wifi");
+const usb = require("./lib/usb");
+const wifi = require("./lib/wifi");
 
 function getInterfaceAddress(int) {
   const interfaces = os.networkInterfaces();
@@ -13,19 +13,30 @@ function getInterfaceAddress(int) {
 }
 
 module.exports = movuino;
+
+module.exports.listen = function() {
+  usb.listen();
+  wifi.listen();
+};
+
+module.exports.unlisten = function() {
+  usb.unlisten();
+  wifi.unlisten();
+};
+
 module.exports.detectWifi = () => {
   return new Promise((resolve, reject) => {
-    wifi.init();
-    wifi.getCurrentConnections((err, conns) => {
+    nodewifi.init();
+    nodewifi.getCurrentConnections((err, conns) => {
       if (err) {
         return reject(err);
       }
       if (!conns[0]) {
         return resolve({});
       }
-      const {iface, ssid} = conns[0];
+      const { iface, ssid } = conns[0];
       const host = getInterfaceAddress(iface);
-      resolve({ssid, host});
+      resolve({ ssid, host });
     });
   });
 };

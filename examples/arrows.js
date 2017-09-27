@@ -13,8 +13,8 @@ const robotjs = require("robotjs"); // eslint-disable-line node/no-unpublished-r
 const sensitivity = 0.15; // threshold : you need to accelerate more than that
 const gravity = 0.06;
 
+movuinojs.listen();
 movuinojs.once("movuino", movuino => {
-
   // The movuino button is assigned to the spacebar key
   movuino.on("button-down", () => {
     console.log("button");
@@ -22,6 +22,7 @@ movuinojs.once("movuino", movuino => {
   });
 
   function accelToArrowKeys([x, , z]) {
+    // prettier-ignore
     if (x > sensitivity) {      // if the X axis sensor data is more than our sensitivity
       console.log("left");      // print "left" in the console
       robotjs.keyTap("left");   // left arrow keytap
@@ -54,4 +55,8 @@ movuinojs.once("movuino", movuino => {
   }
 
   listen();
+});
+
+movuinojs.on("error", err => {
+  console.error(err);
 });

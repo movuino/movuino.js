@@ -11,7 +11,7 @@ const midi = require("midi"); // eslint-disable-line node/no-unpublished-require
 const parseNote = require("note-parser").midi; // eslint-disable-line node/no-unpublished-require
 
 const output = new midi.output(); // eslint-disable-line new-cap
-output.openPort(1);
+output.openPort(0);
 
 const velocity = 127; // Midi velocity 0 - 127
 const accelerometerSensitivity = 0.05; // Motion sensitivity 0 - 1
@@ -38,6 +38,8 @@ function playNote(note, ms = 200) {
   }, ms);
 }
 
+movuinojs.listen();
+// prettier-ignore
 movuinojs.on("movuino", movuino => {        // when a movuino is connected
   function ondata([x, y, z, gx, gy, gz]) {  // and we receive its sensors datas
     // Accelerometer
@@ -114,6 +116,10 @@ movuinojs.on("movuino", movuino => {        // when a movuino is connected
   }
 
   listen();
+});
+
+movuinojs.on("error", err => {
+  console.error(err);
 });
 
 process.on("SIGINT", () => {

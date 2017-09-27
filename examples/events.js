@@ -5,6 +5,7 @@ In this simple example, every event is printed in the console.
 "use strict";
 
 const movuinojs = require("..");
+movuinojs.listen();
 
 // error handling
 movuinojs.on("error", error => {
@@ -15,12 +16,14 @@ movuinojs.on("error", error => {
 movuinojs.on("movuino", movuino => {
   console.log(movuino.id, "movuino");
 
-  movuino.on("error", error => {                // Event
-    console.error(movuino.id, "error", error);  // Log
+  movuino.on("error", error => {
+    // Event
+    console.error(movuino.id, "error", error); // Log
   });
 
-  movuino.on("plugged", () => {                 //Event
-    console.log(movuino.id, "plugged");         // log etc...
+  movuino.on("plugged", () => {
+    //Event
+    console.log(movuino.id, "plugged"); // log etc...
   });
 
   movuino.on("unplugged", () => {

@@ -81,7 +81,6 @@ int bufIndex = 0;    // current index of the buff
 char msgAdr = 'X';   // address of received messages
 String msgVal = "X"; // values of received messages
 
-
 void setup()
 {
   // pin setup
