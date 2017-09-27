@@ -15,10 +15,19 @@ With this example, you can change the range for the accelerometer and the gyrosc
 
 const movuinojs = require("..");
 
+movuinojs.listen();
+// prettier-ignore
 movuinojs.once("movuino", movuino => {             // When a movuino is detected
   movuino.once("plugged", async () => {            // and when it's plugged in
+    await movuino.attachSerial();                  // attach serial port
     await movuino.setRange({ accel: 3, gyro: 3 }); // Set its range (0 to 3)
     const range = await movuino.getRange();        // get the new range
     console.log(range);                            // print it in the console for confirmation
+    await movuino.detachSerial();                  // detach serial port
+    movuinojs.unlisten();                          // unlisten
   });
+});
+
+movuinojs.on("error", err => {
+  console.error(err);
 });

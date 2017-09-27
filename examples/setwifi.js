@@ -14,14 +14,14 @@ async function getConfig() {
   return wifi;
 }
 
+movuinojs.listen();
 movuinojs.on("movuino", movuino => {
   movuino.once("plugged", async () => {
-    try {
-      const wifi = await getConfig();
-      await movuino.setWifi(wifi);
-    } catch (err) {
-      console.error(err);
-    }
+    await movuino.attachSerial();
+    const wifi = await getConfig();
+    await movuino.setWifi(wifi);
+    await movuino.detachSerial();
+    movuinojs.unlisten();
   });
 });
 

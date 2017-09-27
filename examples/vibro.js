@@ -6,11 +6,14 @@ Now we're talking ! This example show you how to play with the vibrator of the m
 
 const movuinojs = require("..");
 
+movuinojs.listen();
+
 // Error handling
 movuinojs.on("error", error => {
   console.error(error);
 });
 
+// prettier-ignore
 movuinojs.on("movuino", movuino => {            // When we detect a movuino
   console.log(movuino.id, "movuino");           // we print its ID
 
