@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+/* eslint-disable node/shebang */
+
+"use strict";
+
+process.title = "movuino";
+
+const movuinojs = require("..");
+const program = require("commander");
+const Table = require("cli-table");
+const chalk = require("chalk");
+const pkg = require("../package.json");
+
+const table = new Table({
+  head: ["id", "online", "plugged"].map(h => chalk.white.bold(h))
+});
+
+program
+  .version(pkg.version)
+  .command("list")
+  .description("list movuinos")
+  .action(async () => {
+    await movuinojs.listen();
+    const { movuinos } = movuinojs;
+
+    movuinos.forEach(movuino => {
+      table.push([
+        chalk.white(movuino.id),
+        movuino.online ? chalk.green("✔") : chalk.red("✖"),
+        movuino.plugged ? chalk.green("✔") : chalk.red("✖")
+      ]);
+    });
+    console.log(table.toString());
+    await movuinojs.unlisten();
+  });
+
+program.parse(process.argv);
