@@ -3,7 +3,7 @@
 const nodewifi = require("node-wifi");
 const os = require("os");
 
-const movuino = require("./lib/movuinos");
+const movuinos = require("./lib/movuinos");
 const usb = require("./lib/usb");
 const wifi = require("./lib/wifi");
 
@@ -12,16 +12,14 @@ function getInterfaceAddress(int) {
   return interfaces[int][0].address;
 }
 
-module.exports = movuino;
+module.exports = movuinos;
 
 module.exports.listen = function() {
-  usb.listen();
-  wifi.listen();
+  return Promise.all([usb.listen(), wifi.listen()]);
 };
 
 module.exports.unlisten = function() {
-  usb.unlisten();
-  wifi.unlisten();
+  return Promise.all([usb.unlisten(), wifi.unlisten()]);
 };
 
 module.exports.detectWifi = () => {
