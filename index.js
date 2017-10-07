@@ -7,9 +7,15 @@ const movuinos = require("./lib/movuinos");
 const usb = require("./lib/usb");
 const wifi = require("./lib/wifi");
 
-function getInterfaceAddress(int) {
+function getInterfaceAddress(iface) {
   const interfaces = os.networkInterfaces();
-  return interfaces[int][0].address;
+  // OS X
+  if (!iface) {
+    iface = "en0";
+  }
+  return interfaces[iface].find(({ internal, family }) => {
+    return !internal && family === "IPv4";
+  }).address;
 }
 
 module.exports = movuinos;
