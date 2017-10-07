@@ -16,20 +16,20 @@
     "node-wifi": "^1.2.5",
     "osc": "^2.2.0",
     "p-event": "^1.3.0",
-    "serialport": "^5.0.0",
+    "serialport": "v6.0.0-beta2",
     "usb": "^1.2.0",
     "wifi-password": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^4.5.0",
+    "eslint": "^4.8.0",
     "eslint-config-prettier": "^2.4.0",
     "eslint-config-xo": "^0.18.2",
-    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-node": "^5.2.0",
     "eslint-plugin-prettier": "^2.2.0",
     "eslint-plugin-unicorn": "^2.1.2",
     "midi": "^0.9.5",
     "note-parser": "^2.0.1",
-    "prettier": "^1.6.1",
+    "prettier": "^1.7.4",
     "robotjs": "^0.4.7"
   }
 }
